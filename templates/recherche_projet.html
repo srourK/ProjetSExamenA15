@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion de Projets</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.result p {
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+}
+
+.all-projects {
+margin-top: 20px;
+border: 1px solid #ccc;
+padding: 10px;
+background-color: #ffffe0;
+margin-left: 150px;
+margin-right: 150px;
+}
+
+
+.flashesS {
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.flash-message {
+    color: red;
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+
+
+.link {
+    text-align: right;
+    margin-top: 50px;
+    margin-right: 262px;
+    clear: both;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Recherche de Projet</h1>
+    </header>
+
+    <div class="container">
+        <h2>Recherche de Projet</h2>
+
+        <form method="POST" action="/recherche_projet">
+            <label for="search_code_projet">Code du Projet:</label>
+            <input type="text" id="search_code_projet" name="search_code_projet" required>
+            <button type="submit">Rechercher</button>
+        </form>
+
+        {% if project %}
+            <div class="result">
+                <h3>Résultat de la Recherche</h3>
+                <p>Code du Projet: {{ project.code_projet }}</p>
+                <p>Description: {{ project.description }}</p>
+            </div>
+        {% endif %}
+        <!-- message projet n'existe pas-->
+        {% with messages = get_flashed_messages(with_categories=true, category_filter=["error"]) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+
+    <!-- message suppression -->
+{% with messages = get_flashed_messages(with_categories=true, category_filter=["success"]) %}
+    {% if messages %}
+        <ul class="flashesS">
+            {% for category, message in messages %}
+                <p class=" flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+
+   {% if projects %}
+    <div class="all-projects">
+        <h3>Tous les Projets</h3>
+        <ul>
+            {% for prj in projects %}
+                <li>{{ prj.code_projet }}: {{ prj.description }}
+                     <a href="{{ url_for('delete_project', project_id=prj.id) }}">Supprimer</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+<div class="link">
+    <a href="{{ url_for('index') }}">Retour</a>
+</div>
+
+</body>
+</html>

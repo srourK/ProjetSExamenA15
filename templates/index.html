@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Projets</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    float: left;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    float: right;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.link {
+    text-align: right;
+    margin-top: 160px;
+    clear: both;
+}
+
+a {
+    color: green;
+    text-decoration: none;
+}
+
+
+
+   .message {
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message.success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestion de Projets</h1>
+    </header>
+
+    <div class="container">
+         {% if message %}
+        <div class="message {% if 'Erreur' in message %}error{% else %}success{% endif %}">
+            {{ message }}
+        </div>
+        {% endif %}
+        <h2>Ajouter un Nouveau Projet</h2>
+
+        <form method="POST" action="/">
+            <label for="code_projet">Code du Projet:</label>
+            <input type="text" id="code_projet" name="code_projet" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+            <button type="submit">Ajouter</button>
+        </form>
+
+        <div class="link">
+         <a href="{{ url_for('recherche_projet') }}">Recherche de Projet</a>
+        </div>
+
+    </div>
+</body>
+</html>
